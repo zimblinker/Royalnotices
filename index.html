@@ -4,14 +4,476 @@
   <meta charset="UTF-8">
   <title>RoyalNotices</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
-    /* Existing styles — unchanged */
-    /* (full CSS kept identical for layout consistency) */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      color: #222;
+      background-color: #f5f7fb;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    header {
+      background: #1a0d2e;
+      color: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+    }
+
+    .logo {
+      font-size: 1.4rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+      color: #d4af37;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+
+    nav li a {
+      font-size: 0.95rem;
+      font-weight: 500;
+      padding: 5px 0;
+      position: relative;
+    }
+
+    nav li a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -3px;
+      width: 0;
+      height: 2px;
+      background: #d4af37;
+      transition: width 0.25s ease-in-out;
+    }
+
+    nav li a:hover::after {
+      width: 100%;
+    }
+
+    #hero {
+      position: relative;
+      color: #fff;
+      padding: 80px 0 70px;
+      overflow: hidden;
+    }
+
+    #hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(135deg, rgba(26, 13, 46, 0.9), rgba(48, 25, 84, 0.8)),
+        url("https://images.pexels.com/photos/1799084/pexels-photo-1799084.jpeg?auto=compress&cs=tinysrgb&w=1600");
+      background-size: cover;
+      background-position: center;
+      z-index: -1;
+    }
+
+    .hero-content {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 40px;
+    }
+
+    .hero-text {
+      flex: 1 1 320px;
+    }
+
+    .hero-text h1 {
+      font-size: 2.4rem;
+      margin-bottom: 15px;
+    }
+
+    .hero-text h1 span {
+      color: #d4af37;
+    }
+
+    .hero-text p {
+      max-width: 520px;
+      margin-bottom: 25px;
+      color: #d5e3ff;
+    }
+
+    .hero-cta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .btn-primary,
+    .btn-outline {
+      padding: 10px 22px;
+      border-radius: 4px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border: 2px solid transparent;
+      cursor: pointer;
+      display: inline-block;
+    }
+
+    .btn-primary {
+      background: #d4af37;
+      border-color: #d4af37;
+      color: #1a0d2e;
+    }
+
+    .btn-primary:hover {
+      background: #b8962e;
+      border-color: #b8962e;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border-color: #d4af37;
+      color: #d4af37;
+    }
+
+    .btn-outline:hover {
+      background: rgba(212, 175, 55, 0.08);
+    }
+
+    .hero-image {
+      flex: 1 1 260px;
+      text-align: center;
+    }
+
+    .hero-card {
+      display: inline-block;
+      padding: 35px 30px;
+      border-radius: 12px;
+      background: rgba(26, 13, 46, 0.7);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      box-shadow: 0 18px 35px rgba(0, 0, 0, 0.4);
+    }
+
+    .hero-card h3 {
+      margin-bottom: 10px;
+      color: #d4af37;
+    }
+
+    .hero-card ul {
+      list-style: none;
+      text-align: left;
+      font-size: 0.9rem;
+      color: #e3efff;
+    }
+
+    .hero-card li + li {
+      margin-top: 6px;
+    }
+
+    section {
+      padding: 60px 0;
+    }
+
+    section h2.section-title {
+      font-size: 1.8rem;
+      text-align: center;
+      margin-bottom: 10px;
+      color: #111827;
+    }
+
+    section p.section-subtitle {
+      text-align: center;
+      font-size: 0.95rem;
+      color: #6b7280;
+      margin-bottom: 35px;
+    }
+
+    #about .about-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+      align-items: center;
+    }
+
+    #about .about-text {
+      flex: 2 1 320px;
+      font-size: 0.96rem;
+      color: #374151;
+    }
+
+    #about .about-text p + p {
+      margin-top: 12px;
+    }
+
+    #about .stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 25px;
+      margin-top: 18px;
+    }
+
+    #about .stat {
+      background: #fff;
+      border-radius: 8px;
+      padding: 12px 15px;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+      min-width: 120px;
+    }
+
+    #about .stat strong {
+      font-size: 1.1rem;
+      color: #111827;
+    }
+
+    #about .stat span {
+      display: block;
+      font-size: 0.8rem;
+      color: #6b7280;
+    }
+
+    #about .about-aside {
+      flex: 1 1 260px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    #about .about-image {
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.15);
+    }
+
+    #about .about-list {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+      padding: 20px 18px;
+      font-size: 0.9rem;
+    }
+
+    #about .about-list h3 {
+      margin-bottom: 10px;
+      color: #111827;
+    }
+
+    #about .about-list ul {
+      list-style: none;
+    }
+
+    #about .about-list li + li {
+      margin-top: 6px;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 20px;
+    }
+
+    .service-card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 22px 18px 20px;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+      border-top: 3px solid #d4af37;
+    }
+
+    .service-card h3 {
+      margin-bottom: 8px;
+      font-size: 1.05rem;
+      color: #111827;
+    }
+
+    .service-card p {
+      font-size: 0.9rem;
+      color: #4b5563;
+      margin-bottom: 8px;
+    }
+
+    .service-card span.tag {
+      font-size: 0.8rem;
+      color: #1a0d2e;
+      background: #fff3cd;
+      padding: 3px 7px;
+      border-radius: 999px;
+      display: inline-block;
+      margin-right: 5px;
+      margin-top: 3px;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 22px;
+    }
+
+    .project-card {
+      background: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+      display: flex;
+      flex-direction: column;
+      min-height: 210px;
+    }
+
+    .project-body {
+      padding: 18px 16px 14px;
+      flex: 1;
+    }
+
+    .project-body h3 {
+      font-size: 1.02rem;
+      margin-bottom: 6px;
+      color: #111827;
+    }
+
+    .project-body p {
+      font-size: 0.9rem;
+      color: #4b5563;
+      margin-bottom: 6px;
+    }
+
+    .project-meta {
+      font-size: 0.8rem;
+      color: #6b7280;
+    }
+
+    #contact .contact-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 35px;
+    }
+
+    #contact .contact-info {
+      flex: 1 1 260px;
+      font-size: 0.95rem;
+      color: #374151;
+    }
+
+    #contact .info-item {
+      margin-bottom: 10px;
+    }
+
+    #contact .info-item span {
+      font-weight: 600;
+      color: #111827;
+    }
+
+    #contact form {
+      flex: 1 1 260px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+      padding: 20px 18px 18px;
+    }
+
+    #contact form .field {
+      margin-bottom: 12px;
+    }
+
+    #contact label {
+      display: block;
+      font-size: 0.85rem;
+      margin-bottom: 4px;
+      color: #4b5563;
+    }
+
+    #contact input,
+    #contact textarea {
+      width: 100%;
+      padding: 8px 9px;
+      border-radius: 4px;
+      border: 1px solid #d1d5db;
+      font-size: 0.9rem;
+      font-family: inherit;
+      resize: vertical;
+    }
+
+    #contact textarea {
+      min-height: 90px;
+    }
+
+    #contact button {
+      margin-top: 5px;
+      width: 100%;
+    }
+
+    footer {
+      background: #1a0d2e;
+      color: #9ca3af;
+      padding: 18px 0;
+      font-size: 0.85rem;
+      text-align: center;
+    }
+
+    footer a {
+      color: #e5e7eb;
+      font-weight: 500;
+    }
+
+    @media (max-width: 768px) {
+      .nav {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+
+      nav ul {
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      #hero {
+        padding-top: 60px;
+      }
+
+      .hero-content {
+        text-align: left;
+      }
+
+      .hero-card {
+        width: 100%;
+      }
+    }
   </style>
 </head>
 
 <body>
-
   <!-- Header -->
   <header>
     <div class="container nav">
@@ -20,8 +482,8 @@
         <ul>
           <li><a href="#hero">Home</a></li>
           <li><a href="#about">About</a></li>
-          <li><a href="#services">Services</a></li>
-          <li><a href="#projects">Projects</a></li>
+          <li><a href="#services">Categories</a></li>
+          <li><a href="#projects">Notices</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
       </nav>
@@ -71,7 +533,7 @@
             Our editors focus on transparency, heritage, and respect for ceremonial accuracy.
           </p>
           <p>
-            Whether it’s a royal wedding, state visit, or historic reflection, we combine editorial precision with a
+            Whether it's a royal wedding, state visit, or historic reflection, we combine editorial precision with a
             timeless aesthetic — keeping readers informed with dignity and care.
           </p>
 
@@ -112,7 +574,7 @@
     </div>
   </section>
 
-  <!-- Services (repurposed as "Categories") -->
+  <!-- Services (Categories) -->
   <section id="services">
     <div class="container">
       <h2 class="section-title">Categories</h2>
@@ -137,7 +599,7 @@
 
         <div class="service-card">
           <h3>Features</h3>
-          <p>Editorial deep‑dives into royal traditions, personalities, and global influence.</p>
+          <p>Editorial deep-dives into royal traditions, personalities, and global influence.</p>
           <span class="tag">Heritage</span>
           <span class="tag">Culture</span>
         </div>
@@ -152,7 +614,7 @@
     </div>
   </section>
 
-  <!-- Projects (repurposed as "Recent Notices") -->
+  <!-- Projects (Recent Notices) -->
   <section id="projects">
     <div class="container">
       <h2 class="section-title">Recent Notices</h2>
@@ -204,10 +666,18 @@
 
       <div class="contact-grid">
         <div class="contact-info">
-          <div class="info-item"><span>Office:</span> 221B Palace Grounds, London, UK</div>
-          <div class="info-item"><span>Phone:</span> +44 (020) 5555‑0001</div>
-          <div class="info-item"><span>Email:</span> <a href="mailto:contact@royalnotices.com">contact@royalnotices.com</a></div>
-          <div class="info-item"><span>Hours:</span> Mon – Fri, 9:00 AM – 5:00 PM GMT</div>
+          <div class="info-item">
+            <span>Office:</span> 221B Palace Grounds, London, UK
+          </div>
+          <div class="info-item">
+            <span>Phone:</span> +44 (020) 5555-0001
+          </div>
+          <div class="info-item">
+            <span>Email:</span> <a href="mailto:contact@royalnotices.com">contact@royalnotices.com</a>
+          </div>
+          <div class="info-item">
+            <span>Hours:</span> Mon – Fri, 9:00 AM – 5:00 PM GMT
+          </div>
         </div>
 
         <form id="contactForm">
@@ -245,12 +715,28 @@
       const message = document.getElementById("message").value.trim();
 
       const subject = encodeURIComponent("New message from " + name);
-      const bodyLines = ["Name: " + name, "Email: " + email, "", "Message:", message];
-
-      const body = encodeURIComponent(bodyLines.join("\\n"));
+      const bodyLines = [
+        "Name: " + name,
+        "Email: " + email,
+        "",
+        "Message:",
+        message
+      ];
+      const body = encodeURIComponent(bodyLines.join("\n"));
       const mailtoLink = "mailto:contact@royalnotices.com?subject=" + subject + "&body=" + body;
 
       window.location.href = mailtoLink;
+    });
+
+    document.querySelectorAll('a[href^="#"]').forEach(function (link) {
+      link.addEventListener("click", function (e) {
+        const targetId = this.getAttribute("href").substring(1);
+        const target = document.getElementById(targetId);
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      });
     });
   </script>
 
